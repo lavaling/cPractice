@@ -54,7 +54,22 @@ public class Hotbar {
 		dynamicContent.put(HotbarItem.KIT_SELECTION, "%KIT%");
 
 		for (Map.Entry<HotbarItem, String> entry : dynamicContent.entrySet()) {
-			String voteName = Hotbar.getItems().get(entry.getKey()).getItemStack().getItemMeta().getDisplayName();
+			HotbarEntry hotbarEntry = Hotbar.getItems().get(entry.getKey());
+			if (hotbarEntry == null) {
+				System.out.println("Error: HotbarEntry is null for " + entry.getKey());
+				continue;
+			}
+			ItemStack itemStack = hotbarEntry.getItemStack();
+			if (itemStack == null) {
+				System.out.println("Error: ItemStack is null for " + entry.getKey());
+				continue;
+			}
+			if (itemStack.getItemMeta() == null || itemStack.getItemMeta().getDisplayName() == null) {
+				System.out.println("Error: ItemMeta or DisplayName is null for " + entry.getKey());
+				continue;
+			}
+
+			String voteName = itemStack.getItemMeta().getDisplayName();
 			String[] nameSplit = voteName.split(entry.getValue());
 
 			entry.getKey().setPattern(
