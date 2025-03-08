@@ -271,23 +271,25 @@ public class cPractice extends JavaPlugin {
 
         if (Profile.getIProfile() instanceof MongoDBIProfile) {
             try {
-              if (databaseConfig.getBoolean("MONGO.URI")) {
-                  this.mongoConnection = new MongoConnection(databaseConfig.getString("MONGO.URI_LINK"));
-              } else if (databaseConfig.getBoolean("MONGO.AUTHENTICATION.ENABLED")) {
-                  this.mongoConnection = new MongoConnection(
-                          databaseConfig.getString("MONGO.HOST"),
-                          databaseConfig.getInteger("MONGO.PORT"),
-                          databaseConfig.getString("MONGO.AUTHENTICATION.USERNAME"),
-                          databaseConfig.getString("MONGO.AUTHENTICATION.PASSWORD"),
-                          databaseConfig.getString("MONGO.AUTHENTICATION.DATABASE")
-                  );
-              } else {
-                  this.mongoConnection = new MongoConnection(
-                          databaseConfig.getString("MONGO.HOST"),
-                          databaseConfig.getInteger("MONGO.PORT"),
-                          databaseConfig.getString("MONGO.DATABASE")
-                  );
-              }
+                if (databaseConfig.getBoolean("MONGO.URI")) {
+                    this.mongoConnection = new MongoConnection(databaseConfig.getString("MONGO.URI_LINK"));
+                } else if (databaseConfig.getBoolean("MONGO.AUTHENTICATION.ENABLED")) {
+                    this.mongoConnection = new MongoConnection(
+                            databaseConfig.getString("MONGO.HOST"),
+                            databaseConfig.getInteger("MONGO.PORT"),
+                            databaseConfig.getString("MONGO.AUTHENTICATION.USERNAME"),
+                            databaseConfig.getString("MONGO.AUTHENTICATION.PASSWORD"),
+                            databaseConfig.getString("MONGO.AUTHENTICATION.DATABASE")
+                    );
+                } else {
+                    this.mongoConnection = new MongoConnection(
+                            databaseConfig.getString("MONGO.HOST"),
+                            databaseConfig.getInteger("MONGO.PORT"),
+                            databaseConfig.getString("MONGO.DATABASE")
+                    );
+                }
+                this.mongoDatabase = this.mongoConnection.getMongoDatabase(); // ← 追加
+
             } catch (Exception e) {
                 ConsoleCommandSender bmsg = Bukkit.getConsoleSender();
 
